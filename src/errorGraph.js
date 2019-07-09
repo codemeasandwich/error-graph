@@ -22,13 +22,14 @@ function errorGraph(stack,args) {
   if('string' === typeof stack) {
     stackArr = stack.split('\n');
     [name,message] = stackArr.shift().split(/:(.+)?/);
-    path = stackArr[0].split("(")[1].slice(0, -1)
+    path = stackArr[0].split("(").pop().slice(0, -1)
   } else if (stack instanceof Error) {
     stackArr = stack.stack.split('\n');
-    name = err.type || err.name;
+    name = stack.type || stack.name;
     message = stack.message;
     path = stackArr[1].split("(")[1].slice(0, -1);
   } else {
+    debugger
     throw new Error(`${typeof stack} is not a supported type of error`)
   }
 
@@ -74,4 +75,4 @@ errorGraph.dump = function(){
   return JSON.parse(JSON.stringify(errorGraphData))
 }
 
-module.exports = errorGraph;
+export default errorGraph;
